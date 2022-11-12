@@ -56,10 +56,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         // si configuramos que se permitía la edición, entonces la imagen llega en la llave .editedImage
         if let imagen = info[.editedImage] as? UIImage {
             imgContainer.image = imagen
+            // para convertir la imagen a un objeto tipo Data (arreglo de bytes):
+            let bytes = imagen.jpegData(compressionQuality:0.5) // Imagen al 50% de su tamaño real
             // confirmar si es una imagen nueva y hay que guardarla en la librería:
             if ipc.sourceType == .camera {
                 // guardar la imagen en la librería:
-                UIImageWriteToSavedPhotosAlbum(imagen, nil, nil, nil)
+                //UIImageWriteToSavedPhotosAlbum(imagen, nil, nil, nil)
+                // o podemos guardar en el album personalizado
+                MiAlbum.instance.guardar(imagen)
             }
         }
         ipc.dismiss(animated: true)
